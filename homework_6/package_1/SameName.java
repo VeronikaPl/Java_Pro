@@ -1,7 +1,7 @@
 package package_1;
 
 public class SameName {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Employee employee = new Employee("Pletnova Veronika Olexandrivna",
                 "java-developer", "name@email.com",
                 "15232813", 20);
