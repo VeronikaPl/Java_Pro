@@ -18,7 +18,7 @@ public class AnimalsInfo {
 
         System.out.println("______________________________");
         System.out.println("Amount of animals is " + Animal.getAnimalsCount());
-        System.out.println("Amount of cats is " + Animal.getCatsCount());
-        System.out.println("Amount of dogs is " + Animal.getDogsCount());
+        System.out.println("Amount of cats is " + Cat.getCatsCount());
+        System.out.println("Amount of dogs is " + Dog.getDogsCount());
     }
 }
