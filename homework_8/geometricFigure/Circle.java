@@ -1,4 +1,4 @@
-package geometric_figure;
+package geometricFigure;
 
 public class Circle implements GeometricFigure {
     private double radius;
@@ -16,7 +16,7 @@ public class Circle implements GeometricFigure {
     }
 
     @Override
-    public double Area(){
+    public double getArea() {
         return Math.pow(getRadius(), 2) * Math.PI;
     }
 }

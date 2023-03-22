@@ -14,12 +14,6 @@ public class Main {
                 new Racetrack("Race-track #2", 25)
         };
 
-        for (Participant part : participants) {
-            for (Barrier barrier : barriers) {
-                if (!barrier.overcome(part))
-                    break;
-            }
-            System.out.println("-------------------------------------");
-        }
+        Competition.start(participants, barriers);
     }
 }
