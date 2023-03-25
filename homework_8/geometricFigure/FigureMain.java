@@ -7,6 +7,6 @@ public class FigureMain {
                 new Triangle(3, 4, 5),
                 new Square(4)
         };
-        GeometricFigure.summAreas(geometricFigures);
+        System.out.println("Area of Circle + Triangle + Square = " + GeometricFigure.summAreas(geometricFigures));
     }
 }

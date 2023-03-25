@@ -7,7 +7,6 @@ public class Competition {
                 if (!barrier.overcome(part))
                     break;
             }
-            System.out.println("-------------------------------------");
         }
     }
 }
