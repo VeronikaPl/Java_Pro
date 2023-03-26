@@ -1,7 +1,7 @@
 package exceptionsHw9;
 
 public class MainValueCalculator {
-    public static void main(String[] args) throws ArrayDataException, ArraySizeException {
+    public static void main(String[] args) {
         String[][] array = {
                 {"2", "5", "2", "6"},
                 {"1", "17", "4", "3"},
