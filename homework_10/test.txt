@@ -1,0 +1,2 @@
+[22:22:46][DEBUG] Message: First message
+[22:22:59][DEBUG] Message: Second message

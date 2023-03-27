@@ -1,0 +1,4 @@
+FILE: D:\Courses\Hillel IT school\Java\Java_Pro\homework_10\test.txt
+LEVEL: DEBUG
+MAX-SIZE: 500
+FORMAT: txt
