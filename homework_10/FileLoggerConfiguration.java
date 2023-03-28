@@ -47,13 +47,4 @@ public class FileLoggerConfiguration {
     public void setFileFormat(String fileFormat) {
         this.fileFormat = fileFormat;
     }
-
-    public static void loadTextToFile(String message) throws IOException {
-        FileLoggerConfiguration config = new FileLoggerConfigurationLoader().load("D:/Courses/Hillel IT school/Java/Java_Pro/homework_10/test.txt");
-        FileLogger fileLogger = new FileLogger(config);
-        if (config.getLoggingLevel() == LoggingLevel.DEBUG) {
-            fileLogger.debug(message);
-        }
-        fileLogger.info(message);
-    }
 }
