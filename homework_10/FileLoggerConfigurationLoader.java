@@ -1,33 +1,48 @@
 import enums.LoggingLevel;
 
 import java.io.*;
-import java.util.Scanner;
 
 public class FileLoggerConfigurationLoader {
-    public static FileLoggerConfiguration load(String filePath) throws IOException {
-        File configFile = new File(filePath);
-        Scanner scanner = new Scanner(configFile);
-
-        String name = null;
+    public static FileLoggerConfiguration load(String filePath) {
+        BufferedReader bufferedReader = null;
+        String pathToFile = null;
         LoggingLevel loggingLevel = null;
         long maxSize = 0;
         String format = null;
 
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine().trim();
-            if (line.startsWith("FILE:")) {
-                name = line.substring("FILE:".length()).trim();
-            } else if (line.startsWith("LEVEL:")) {
-                String level = line.substring("LEVEL:".length()).trim();
-                loggingLevel = LoggingLevel.valueOf(level.toUpperCase());
-            } else if (line.startsWith("MAX-SIZE:")) {
-                String size = line.substring("MAX-SIZE:".length()).trim();
-                maxSize = Long.parseLong(size);
-            } else if (line.startsWith("FORMAT:")) {
-                format = line.substring("FORMAT:".length()).trim();
+        try {
+            bufferedReader = new BufferedReader(new FileReader(filePath));
+            String line = bufferedReader.readLine();
+
+            while (line != null) {
+                String[] configParts = line.split(": ");
+                String value = configParts[1];
+                switch (configParts[0]) {
+                    case "FILE": {
+                        pathToFile = value;
+                        break;
+                    }
+                    case "LEVEL": {
+                        loggingLevel = LoggingLevel.valueOf(value);
+                        break;
+                    }
+                    case "MAX-SIZE": {
+                        maxSize = Long.parseLong(value);
+                        break;
+                    }
+                    case "FORMAT": {
+                        format = value;
+                        break;
+                    }
+                    default: {
+                        throw new IllegalArgumentException("Parameter " + configParts[0] + " are invalid");
+                    }
+                }
+                line = bufferedReader.readLine();
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        scanner.close();
-        return new FileLoggerConfiguration(name, loggingLevel, maxSize, format);
+        return new FileLoggerConfiguration(pathToFile, loggingLevel, maxSize, format);
     }
 }

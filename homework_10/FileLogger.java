@@ -12,33 +12,50 @@ public class FileLogger {
         this.config = config;
     }
 
-    public void writeInFile(String message, LoggingLevel loggingLevel) throws FileMaxSizeException, IOException {
-        File file = new File(config.getFileName());
+    public void debug(String message) {
+        if (isDebugEnabled()) {
+            log(message, LoggingLevel.DEBUG);
+            log(message, LoggingLevel.INFO);
+        }
+    }
 
-        if (file.exists() && file.length() >= config.getFileSizeMax()) {
+    public void info(String message) {
+        if (isInfoEnabled()) {
+            log(message, LoggingLevel.INFO);
+        }
+    }
+
+    private void log(String message, LoggingLevel loggingLevel) {
+        File file = new File(config.getFileName());
+        if (isMaxFileSizeExceeded(file)) {
             createNewLogFile(file.getName());
-            throw new FileMaxSizeException("You reached max size of file: %d in '%s'. Size of your file: %d"
-                    .formatted(config.getFileSizeMax(), config.getFileName(), file.length()));
         } else {
             try (FileWriter writer = new FileWriter(file, true)) {
-                writer.write("[" + CurrentTime.time() + "][" + loggingLevel + "]" + " Message: " + message + "\n");
+                writer.write("[" + DateTimeUtils.getCurrentTimeAsString() + "][" + loggingLevel + "]" + " Message: " + message + "\n");
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
 
-    private void createNewLogFile(String fileName) throws IOException {
-        String newFileName = fileName;
-        File newLogFile = new File(newFileName);
-        newLogFile.createNewFile();
+    private void createNewLogFile(String fileName) {
+        File newLogFile = new File(fileName);
+        try {
+            newLogFile.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void debug(String message) throws IOException {
-        writeInFile(message, LoggingLevel.DEBUG);
+    private boolean isDebugEnabled() {
+        return config.getLoggingLevel() == LoggingLevel.DEBUG;
     }
 
-    public void info(String message) throws IOException {
-        writeInFile(message, LoggingLevel.INFO);
+    private boolean isInfoEnabled() {
+        return config.getLoggingLevel() == LoggingLevel.INFO;
+    }
+
+    private boolean isMaxFileSizeExceeded(File file) {
+        return file.exists() && file.length() >= config.getFileSizeMax();
     }
 }

@@ -1,8 +1,5 @@
 import enums.LoggingLevel;
 
-import java.io.File;
-import java.io.IOException;
-
 public class FileLoggerConfiguration {
     private String fileName;
     private LoggingLevel loggingLevel;
@@ -14,6 +11,12 @@ public class FileLoggerConfiguration {
         this.loggingLevel = loggingLevel;
         this.fileSizeMax = fileSizeMax;
         this.fileFormat = fileFormat;
+        if (fileName == null || fileFormat == null) {
+            throw new NullPointerException("Value of file's name or format are 'null', please check parameters");
+        }
+        if (fileSizeMax < 0) {
+            throw new IllegalArgumentException("Invalid value of file's size! It can't be negative");
+        }
     }
 
     public String getFileName() {

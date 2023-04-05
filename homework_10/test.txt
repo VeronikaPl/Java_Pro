@@ -1,2 +1,5 @@
 [22:22:46][DEBUG] Message: First message
 [22:22:59][DEBUG] Message: Second message
+[18:42:49-05.04.2023][INFO] Message: Info message
+[18:42:49-05.04.2023][DEBUG] Message: Load DEBUG message
+[18:42:49-05.04.2023][INFO] Message: Load DEBUG message
