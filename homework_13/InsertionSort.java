@@ -1,13 +1,13 @@
 public class InsertionSort {
-    static int[] insertSort(int[] array) {
+    static int[] insertionSort(int[] array) {
         for (int i = 1; i < array.length; i++) {
-            int insert = array[i];
+            int current = array[i];
             int j = i - 1;
-            while (j >= 0 && array[j] > insert) {
+            while (j >= 0 && array[j] > current) {
                 array[j + 1] = array[j];
-                j = j - 1;
+                j--;
             }
-            array[j + 1] = insert;
+            array[j + 1] = current;
         }
         return array;
     }

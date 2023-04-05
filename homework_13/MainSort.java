@@ -7,7 +7,7 @@ public class MainSort {
         System.out.println("Bubble sort: " + Arrays.toString(resBubbleSort));
 
         int[] sortNum = new int[]{9, 4, 2, 7, 1, 8, 3};
-        int[] resInsertionSort = InsertionSort.insertSort(sortNum);
+        int[] resInsertionSort = InsertionSort.insertionSort(sortNum);
         System.out.println("Insertion sort: " + Arrays.toString(resInsertionSort));
     }
 }
