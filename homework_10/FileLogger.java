@@ -15,7 +15,6 @@ public class FileLogger {
     public void debug(String message) {
         if (isDebugEnabled()) {
             log(message, LoggingLevel.DEBUG);
-            log(message, LoggingLevel.INFO);
         }
     }
 
@@ -52,7 +51,7 @@ public class FileLogger {
     }
 
     private boolean isInfoEnabled() {
-        return config.getLoggingLevel() == LoggingLevel.INFO;
+        return config.getLoggingLevel() == LoggingLevel.INFO || config.getLoggingLevel() == LoggingLevel.DEBUG;
     }
 
     private boolean isMaxFileSizeExceeded(File file) {

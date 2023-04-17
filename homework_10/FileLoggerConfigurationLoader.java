@@ -4,16 +4,13 @@ import java.io.*;
 
 public class FileLoggerConfigurationLoader {
     public static FileLoggerConfiguration load(String filePath) {
-        BufferedReader bufferedReader = null;
         String pathToFile = null;
         LoggingLevel loggingLevel = null;
         long maxSize = 0;
         String format = null;
 
-        try {
-            bufferedReader = new BufferedReader(new FileReader(filePath));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
             String line = bufferedReader.readLine();
-
             while (line != null) {
                 String[] configParts = line.split(": ");
                 String value = configParts[1];
