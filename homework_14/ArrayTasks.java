@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class ArrayTasks {
     public static int countOccurance(List<String> words, String str) {
@@ -28,8 +25,8 @@ public class ArrayTasks {
         return words;
     }
 
-    public static List<Integer> toList(Integer[] arrayWord) {
-        List<Integer> words = new ArrayList<>();
+    public static <T> List<T> toList(T[] arrayWord) {
+        List<T> words = new ArrayList<>(arrayWord.length);
         words.addAll(Arrays.asList(arrayWord));
         return words;
     }
@@ -44,20 +41,16 @@ public class ArrayTasks {
         return uniqNum;
     }
 
-    public static void calcOccurance(List<String> arrayWords) {
-        int count = 1;
-        Collections.sort(arrayWords);
-        String currentWord = arrayWords.get(0);
-        for (int i = 1; i < arrayWords.size(); i++) {
-            if (currentWord.equals(arrayWords.get(i))) {
-                count++;
+    public static Map<String, Integer> calcOccurance(List<String> arrayWords) {
+        Map<String, Integer> countOccurance = new HashMap<>();
+        for (String currentWord : arrayWords) {
+            if (countOccurance.containsKey(currentWord)) {
+                countOccurance.put(currentWord, countOccurance.get(currentWord) + 1);
             } else {
-                System.out.println(currentWord + ": " + count);
-                count = 1;
-                currentWord = arrayWords.get(i);
+                countOccurance.put(currentWord, 1);
             }
         }
-        System.out.println(currentWord + ": " + count);
+        return countOccurance;
     }
 
     public static List<WordOccurance> findOccurance(List<String> arrayWords) {

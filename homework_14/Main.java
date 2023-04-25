@@ -11,7 +11,7 @@ public class Main {
         System.out.println("List: " + convertToList);
         System.out.println(ArrayTasks.findUnique(convertToList));
 
-        ArrayTasks.calcOccurance(wordsList);
+        System.out.println(ArrayTasks.calcOccurance(wordsList));
         System.out.println(ArrayTasks.findOccurance(wordsList));
     }
 }

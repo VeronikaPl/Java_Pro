@@ -33,6 +33,6 @@ public class PhoneDirectory {
                 foundRecord.add(record);
             }
         }
-        return recordList.isEmpty() ? null : foundRecord;
+        return foundRecord.isEmpty() ? null : foundRecord;
     }
 }

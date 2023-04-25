@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class WordOccurance {
     private String name;
     private int occurance;
@@ -29,5 +31,18 @@ public class WordOccurance {
                 "name:'" + name + '\'' +
                 ", occurance: " + occurance +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WordOccurance that = (WordOccurance) o;
+        return occurance == that.occurance && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, occurance);
     }
 }
