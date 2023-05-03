@@ -16,8 +16,11 @@ public class ProductMethods {
     public static List<Product> getBookWithDiscount(List<Product> products) {
         Objects.requireNonNull(products);
         return products.stream()
-                .filter(product -> product.isBook() && product.isDiscount())
-                .peek(product -> product.setPrice(product.getPrice() * 0.9))
+                .filter(product -> product.isBook() && product.hasDiscount())
+                .map(product -> {
+                    product.setPrice(product.getPrice() * 0.9);
+                    return product;
+                })
                 .collect(Collectors.toList());
     }
 

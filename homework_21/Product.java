@@ -6,14 +6,14 @@ public class Product {
     private ProductType type;
     private double price;
     private boolean discount;
-    private LocalDate localDate;
+    private LocalDate createdAt;
 
-    public Product(int id, ProductType type, double price, boolean discount, LocalDate localDate) {
+    public Product(int id, ProductType type, double price, boolean discount, LocalDate createdAt) {
         this.id = id;
         this.type = type;
         this.price = price;
         this.discount = discount;
-        this.localDate = localDate;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -44,7 +44,7 @@ public class Product {
         this.price = price;
     }
 
-    public boolean isDiscount() {
+    public boolean hasDiscount() {
         return discount;
     }
 
@@ -53,11 +53,11 @@ public class Product {
     }
 
     public LocalDate getLocalDate() {
-        return localDate;
+        return createdAt;
     }
 
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public void setLocalDate(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -65,12 +65,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id == product.id && Double.compare(product.price, price) == 0 && discount == product.discount && type == product.type && Objects.equals(localDate, product.localDate);
+        return id == product.id && Double.compare(product.price, price) == 0 && discount == product.discount && type == product.type && Objects.equals(createdAt, product.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, price, discount, localDate);
+        return Objects.hash(id, type, price, discount, createdAt);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Product {
                 ", type=" + type +
                 ", price=" + price +
                 ", discount=" + discount +
-                ", localDate=" + localDate +
+                ", localDate=" + createdAt +
                 '}' + '\n';
     }
 }
