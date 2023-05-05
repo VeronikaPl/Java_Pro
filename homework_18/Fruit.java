@@ -1,15 +1,15 @@
 public class Fruit {
-    private double weight;
+    private float weight;
 
-    public Fruit(double weight) {
+    public Fruit(float weight) {
         this.weight = weight;
     }
 
-    public double getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 }

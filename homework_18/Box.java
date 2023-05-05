@@ -11,7 +11,11 @@ public class Box<T extends Fruit> {
     }
 
     public void add(List<T> fruit) {
-        fruitList.addAll(fruit);
+        if (fruit.getClass() == fruitList.getClass()) {
+            fruitList.addAll(fruit);
+        } else {
+            throw new RuntimeException("Different type of fruit can't be in the same box");
+        }
     }
 
     public double getWeight() {
