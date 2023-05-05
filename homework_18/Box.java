@@ -7,7 +7,11 @@ public class Box<T extends Fruit> {
 
     public void add(T fruit) {
         Objects.requireNonNull(fruit);
-        fruitList.add(fruit);
+        if (fruit.getClass() == fruitList.get(0).getClass()) {
+            fruitList.add(fruit);
+        } else {
+            throw new RuntimeException("Different type of fruit can't be in the same box");
+        }
     }
 
     public void add(List<T> fruit) {
