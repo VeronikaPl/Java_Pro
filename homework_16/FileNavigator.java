@@ -1,23 +1,8 @@
 import java.nio.file.InvalidPathException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class FileNavigator {
-    private HashMap<String, List<FileData>> file;
-
-    public FileNavigator() {
-        this.file = new HashMap<>();
-    }
-
-    public HashMap<String, List<FileData>> getFile() {
-        return file;
-    }
-
-    public void setFile(HashMap<String, List<FileData>> file) {
-        this.file = file;
-    }
+    private Map<String, List<FileData>> file = new HashMap<>();
 
     public void add(String pathToFile, FileData fileData) {
         if (!pathToFile.equals(fileData.getPathToFile())) {
@@ -36,19 +21,23 @@ public class FileNavigator {
         if (file.containsKey(pathToFile)) {
             return file.get(pathToFile);
         }
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     public List<FileData> filterBySize(long fileSize) {
-        List<FileData> filterList = new ArrayList<>();
-        for (List<FileData> fileDataList : file.values()) {
-            for (FileData fileData : fileDataList) {
-                if (fileData.getFileSize() <= fileSize) {
-                    filterList.add(fileData);
+        if (fileSize <= 0) {
+            throw new RuntimeException("File's size can't be less or equal 0");
+        } else {
+            List<FileData> filterList = new ArrayList<>();
+            for (List<FileData> fileDataList : file.values()) {
+                for (FileData fileData : fileDataList) {
+                    if (fileData.getFileSize() <= fileSize) {
+                        filterList.add(fileData);
+                    }
                 }
             }
+            return filterList;
         }
-        return filterList;
     }
 
     public void remove(String pathToFile) {
