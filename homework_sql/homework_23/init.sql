@@ -1,0 +1,25 @@
+CREATE TABLE homework(
+id BIGSERIAL PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+description TEXT
+);
+
+CREATE TABLE Lesson(
+id BIGSERIAL PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+updatedAt TIMESTAMP DEFAULT NOW(),
+homework_id BIGINT NOT NULL,
+CONSTRAINT homework_id_fk FOREIGN KEY (homework_id) REFERENCES homework(id)
+);
+
+CREATE TABLE Schedule(
+id BIGSERIAL PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+updatedAt TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE lesson_schedule(
+lesson_id BIGINT REFERENCES lesson(id) ON DELETE CASCADE,
+schedule_id BIGINT REFERENCES schedule(id) ON DELETE CASCADE,
+PRIMARY KEY (lesson_id, schedule_id)
+);
