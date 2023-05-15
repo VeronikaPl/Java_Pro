@@ -10,15 +10,15 @@ public class Main {
         coffeeOrderBoard.add("Abby");
         coffeeOrderBoard.add("Nick");
 
-        coffeeOrderBoard.draw();
+        System.out.println(coffeeOrderBoard.draw());
 
         coffeeOrderBoard.deliver();
-        coffeeOrderBoard.draw();
+        System.out.println(coffeeOrderBoard.draw());
 
         coffeeOrderBoard.deliver(5);
-        coffeeOrderBoard.draw();
+        System.out.println(coffeeOrderBoard.draw());
 
         coffeeOrderBoard.add("Josh");
-        coffeeOrderBoard.draw();
+        System.out.println(coffeeOrderBoard.draw());
     }
 }

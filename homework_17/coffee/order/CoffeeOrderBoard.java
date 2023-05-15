@@ -12,9 +12,9 @@ public class CoffeeOrderBoard {
         naturalOrdering = 1;
     }
 
-    public void add(String nameCustomer) {
-        Objects.requireNonNull(nameCustomer);
-        orderList.add(new Order(naturalOrdering++, nameCustomer));
+    public void add(String customer) {
+        Objects.requireNonNull(customer);
+        orderList.add(new Order(naturalOrdering++, customer));
     }
 
     public void deliver() {
@@ -39,10 +39,11 @@ public class CoffeeOrderBoard {
         }
     }
 
-    public void draw() {
-        System.out.println("\tCurrent queue:");
+    public String draw() {
+        String result = "";
         for (Order order : orderList) {
-            System.out.println(order.getNumberOrder() + " | " + order.getNameCustomer());
+            result += order.getNumberOrder() + " | " + order.getNameCustomer() + "\n";
         }
+        return "\tCurrent queue:\n" + result;
     }
 }

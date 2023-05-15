@@ -1,5 +1,7 @@
 package coffee.order;
 
+import java.util.Objects;
+
 public class Order {
     private int numberOrder;
     private String nameCustomer;
@@ -23,5 +25,18 @@ public class Order {
 
     public void setNameCustomer(String nameCustomer) {
         this.nameCustomer = nameCustomer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return numberOrder == order.numberOrder && Objects.equals(nameCustomer, order.nameCustomer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numberOrder, nameCustomer);
     }
 }
