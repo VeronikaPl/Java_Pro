@@ -1,6 +1,8 @@
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class ValueCalculator {
+    private static final Logger LOGGER = Logger.getLogger(ValueCalculator.class.getName());
     private double[] array;
     private int size;
     private int halfSize;
@@ -14,31 +16,9 @@ public class ValueCalculator {
         this.halfSize = size / 2;
     }
 
-    public double[] getArray() {
-        return array;
-    }
+    public synchronized void run() {
+        long start = System.currentTimeMillis();
 
-    public void setArray(double[] array) {
-        this.array = array;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public int getHalfSize() {
-        return halfSize;
-    }
-
-    public void setHalfSize(int halfSize) {
-        this.halfSize = halfSize;
-    }
-
-    public synchronized void arrayMethod() {
         Arrays.fill(array, 1);
 
         double[] arr1 = new double[halfSize];
@@ -56,17 +36,14 @@ public class ValueCalculator {
             thread1.join();
             thread2.join();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
         }
 
         System.arraycopy(arr1, 0, array, 0, halfSize);
         System.arraycopy(arr2, 0, array, halfSize, halfSize);
-    }
 
-    public long countTime() {
-        long start = System.currentTimeMillis();
-        arrayMethod();
         long end = System.currentTimeMillis();
-        return end - start;
+
+        LOGGER.info("Time: " + (end - start));
     }
 }
