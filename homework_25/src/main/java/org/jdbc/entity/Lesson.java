@@ -7,6 +7,7 @@ public class Lesson {
     private Long id;
     private String name;
     private Homework homework;
+    private LocalDateTime updatedAt;
 
     public Lesson() {
     }
@@ -35,17 +36,21 @@ public class Lesson {
         this.homework = homework;
     }
 
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lesson lesson = (Lesson) o;
-        return Objects.equals(id, lesson.id) && Objects.equals(name, lesson.name) && Objects.equals(homework, lesson.homework);
+        return Objects.equals(id, lesson.id) && Objects.equals(name, lesson.name) && Objects.equals(homework, lesson.homework) && Objects.equals(updatedAt, lesson.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, homework);
+        return Objects.hash(id, name, homework, updatedAt);
     }
 
     @Override
@@ -54,6 +59,7 @@ public class Lesson {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", homework=" + homework +
-                '}' + "\n";
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }

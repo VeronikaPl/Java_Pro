@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 public class HomeworkDao {
+    private static final String SELECT_BY_ID_HOMEWORK = """
+            SELECT id, name, description FROM homework WHERE id = ?
+            """;
     private DataSource dataSource;
 
     public HomeworkDao(DataSource dataSource) {
@@ -19,12 +22,9 @@ public class HomeworkDao {
 
     public Homework getHomeworkByID(Long id) {
         Objects.requireNonNull(id);
-        String sql = """
-                SELECT id, name, description FROM homework WHERE id = ?
-                """;
 
         try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_BY_ID_HOMEWORK)) {
 
             int idx = 1;
             ps.setLong(idx, id);

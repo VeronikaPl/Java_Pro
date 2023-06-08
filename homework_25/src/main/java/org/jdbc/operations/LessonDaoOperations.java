@@ -4,12 +4,12 @@ import org.jdbc.entity.Lesson;
 
 import java.util.List;
 
-public interface LessonDaoOperations<T, ID> {
-    Lesson insertLesson(T lesson);
+public interface LessonDaoOperations<Lesson, Long> {
+    Lesson insertLesson(Lesson lesson);
 
-    boolean deleteLesson(ID id);
+    boolean deleteLesson(Long id);
 
-    List<T> getAllLessons();
+    List<Lesson> getAllLessons();
 
-    T findLessonByID(ID id);
+    Lesson findLessonByID(Long id);
 }

@@ -13,6 +13,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class LessonDao implements LessonDaoOperations<Lesson, Long> {
+    private static final String INSERT_INTO_LESSON = """
+            INSERT INTO lesson (name, homework_id) VALUES (?, ?)
+            """;
+    private static final String DELETE_LESSON = """
+            DELETE FROM lesson WHERE id = ?
+            """;
+
+    private static final String SELECT_LESSON = """
+            SELECT l.id, l.name, h.id, h.name, h.description
+            FROM lesson l LEFT JOIN homework h ON l.homework_id = h.id;
+            """;
+    private static final String SELECT_BY_ID_LESSON = """
+            SELECT id, name, homework_id FROM lesson WHERE id = ?
+            """;
+    private final HomeworkDao homeworkDao = new HomeworkDao(this.dataSource);
     private DataSource dataSource;
 
     public LessonDao(DataSource dataSource) {
@@ -26,12 +41,8 @@ public class LessonDao implements LessonDaoOperations<Lesson, Long> {
             throw new JdbcOperationException("ID mustn`t be provided during the insert operation!");
         }
 
-        var sql = """
-                INSERT INTO lesson (name, homework_id) VALUES (?, ?)
-                """;
-
         try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement prepStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement prepStatement = connection.prepareStatement(INSERT_INTO_LESSON, Statement.RETURN_GENERATED_KEYS)) {
             int idx = 1;
             prepStatement.setString(idx++, lesson.getName());
             prepStatement.setLong(idx, lesson.getHomework().getId());
@@ -42,7 +53,8 @@ public class LessonDao implements LessonDaoOperations<Lesson, Long> {
             }
             ResultSet generatedKeys = prepStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                Long id = generatedKeys.getLong(1);
+                int generatedKeysIndex = 1;
+                Long id = generatedKeys.getLong(generatedKeysIndex);
                 lesson.setId(id);
             }
             return lesson;
@@ -54,12 +66,9 @@ public class LessonDao implements LessonDaoOperations<Lesson, Long> {
     @Override
     public boolean deleteLesson(final Long id) {
         Objects.requireNonNull(id);
-        var sql = """
-                DELETE FROM lesson WHERE id = ?
-                """;
 
         try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LESSON)) {
             int index = 1;
             preparedStatement.setLong(index, id);
             int rowsDeleted = preparedStatement.executeUpdate();
@@ -75,28 +84,24 @@ public class LessonDao implements LessonDaoOperations<Lesson, Long> {
 
     @Override
     public List<Lesson> getAllLessons() {
-        List<Lesson> lessonList = new ArrayList<>();
-        var sql = """
-                SELECT l.id, l.name, h.id, h.name, h.description
-                FROM lesson l LEFT JOIN homework h ON l.homework_id = h.id;
-                """;
+        List<Lesson> lessons = new ArrayList<>();
 
         try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_LESSON)) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                HomeworkDao homeworkDao = new HomeworkDao(this.dataSource);
                 Homework homework = homeworkDao.getHomeworkByID(resultSet.getLong("homework_id"));
 
                 Lesson lesson = new Lesson();
                 lesson.setId(resultSet.getLong("id"));
                 lesson.setName(resultSet.getString("name"));
+                lesson.setUpdatedAt(resultSet.getTimestamp("updatedAt").toLocalDateTime());
                 lesson.setHomework(homework);
 
-                lessonList.add(lesson);
+                lessons.add(lesson);
             }
-            return lessonList;
+            return lessons;
         } catch (SQLException e) {
             throw new JdbcOperationException("Failed to get all lessons!");
         }
@@ -105,12 +110,9 @@ public class LessonDao implements LessonDaoOperations<Lesson, Long> {
     @Override
     public Lesson findLessonByID(final Long id) {
         Objects.requireNonNull(id);
-        var sql = """
-                SELECT id, name, homework_id FROM lesson WHERE id = ?
-                """;
 
         try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID_LESSON)) {
             int index = 1;
             preparedStatement.setLong(index, id);
 
@@ -119,8 +121,8 @@ public class LessonDao implements LessonDaoOperations<Lesson, Long> {
                 Lesson lesson = new Lesson();
                 lesson.setId(resultSet.getLong("id"));
                 lesson.setName(resultSet.getString("name"));
+                lesson.setUpdatedAt(resultSet.getTimestamp("updatedAt").toLocalDateTime());
 
-                HomeworkDao homeworkDao = new HomeworkDao(this.dataSource);
                 Homework homework = homeworkDao.getHomeworkByID(resultSet.getLong("homework_id"));
 
                 lesson.setHomework(homework);
