@@ -23,7 +23,7 @@ public class CarBuilder implements Builder {
         this.transmission = transmission;
     }
 
-    public Car getResult() {
+    public Car built() {
         return new Car(type, engine, transmission);
     }
 }

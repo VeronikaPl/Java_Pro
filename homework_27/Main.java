@@ -8,40 +8,44 @@ import strategy.Rectangle;
 import strategy.SquareCalculate;
 import strategy.Triangle;
 
+import java.util.logging.Logger;
+
 public class Main {
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
-        System.out.println("\tSquare (Strategy):");
+        LOGGER.info("\tSquare (Strategy):");
         SquareCalculate squareCalculate = new SquareCalculate();
 
         Rectangle rectangle = new Rectangle(3, 7);
         squareCalculate.setGeometricFigure(rectangle);
-        System.out.println("Rectangle (3, 7) = " + squareCalculate.calculateFigureSquare());
+        LOGGER.info("Rectangle (3, 7) = " + squareCalculate.calculateFigureSquare());
 
         Triangle triangle = new Triangle(8, 5);
         squareCalculate.setGeometricFigure(triangle);
-        System.out.println("Triangle (8, 5) = " + squareCalculate.calculateFigureSquare());
+        LOGGER.info("Triangle (8, 5) = " + squareCalculate.calculateFigureSquare());
 
-        System.out.println("\tFurniture (Factory):");
+        LOGGER.info("\tFurniture (Factory):");
         FurnitureFactory sofaCreator = new SofaCreator();
-        System.out.println(sofaCreator.createFurniture());
+        LOGGER.info(sofaCreator.createFurniture());
 
         FurnitureFactory chairCreator = new ChairCreator();
-        System.out.println(chairCreator.createFurniture());
+        LOGGER.info(chairCreator.createFurniture());
 
         FurnitureFactory tableCreator = new TableCreator();
-        System.out.println(tableCreator.createFurniture());
+        LOGGER.info(tableCreator.createFurniture());
 
-        System.out.println("\tCar factory (Builder):");
+        LOGGER.info("\tCar factory (Builder):");
         CarDirector carDirector = new CarDirector();
         CarBuilder carBuilder = new CarBuilder();
 
         carDirector.constructCityCar(carBuilder);
-        System.out.println(carBuilder.getResult());
+        LOGGER.info(String.valueOf(carBuilder.built()));
 
         carDirector.constructSportsCar(carBuilder);
-        System.out.println(carBuilder.getResult());
+        LOGGER.info(String.valueOf(carBuilder.built()));
 
         carDirector.constructSUV(carBuilder);
-        System.out.println(carBuilder.getResult());
+        LOGGER.info(String.valueOf(carBuilder.built()));
     }
 }
